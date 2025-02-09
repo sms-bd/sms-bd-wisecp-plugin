@@ -1,6 +1,6 @@
 <?php 
 return [
-    'name'                 => 'sms.net.bd',
+    'name'                 => 'SmsNetbd',
     'api-token-desc'       => '',
     'origin-name'          => 'Sender ID',
     'origin-name-desc'     => '',
@@ -12,8 +12,12 @@ return [
 
     'admin-template-success' => 'Admin Template Saved Successfully.',
     'admin-template-error' => 'Something went wrong. Please try again later.',
+
+    'client-template-success' => 'Client Template Saved Successfully.',
+    'client-template-error' => 'Something went wrong. Please try again later.',
     'send-sms' => 'Send SMS',
     'save-admin-template' => 'Save Admin Template',
+    'save-client-template'=> 'Save Client Template',
     'AdminNumber' => 'Admin Number',
     'ClientCreated' => 'Client Created',
     'ClientDeleted' => 'Client Deleted',

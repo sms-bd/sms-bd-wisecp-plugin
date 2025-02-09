@@ -3,10 +3,13 @@ if (!defined("CORE_FOLDER")) die();
 
 $LANG       = $module->lang;
 $CONFIG     = $module->config;
-$exampleSMS = new ExampleSMS();
+$SmsNetbd   = new SmsNetbd();
 
 // hooks array file include
 $hooks_array = include dirname(__DIR__) . DS . "controllers" . DS . "hooks-array.php";
+
+$admin_template = include dirname(__DIR__) . DS . "pages/tabs" . DS . "admin-template.php";
+$client_template = include dirname(__DIR__) . DS . "pages/tabs" . DS . "client-template.php";
 
 User::addAction()
 ?>
@@ -158,28 +161,54 @@ User::addAction()
     }
 </style>
 
-
-
-
 <div class="verticaltabs" id="verticaltabs">
+
+    <?php 
+
+    $module = new Modules();
+        $module::getModules('', 'SMS');
+
+    if ($module  ) {
+        echo "SMS module is enabled";
+
+        print_r($module->getModules('', 'SMS'));
+    } else {
+        echo "SMS module is disabled";
+    }
+
+    ?>
+
+
     <div id="tab-module">
+
         <!-- Tab navigation -->
         <ul class="tab">
+
             <li>
                 <a data-tab="settings" class="tablinks active">
                     <span>Settings</span>
+                  
                 </a>
             </li>
+
             <li>
                 <a data-tab="admin-template" class="tablinks">
                     <span>Admin Template</span>
                 </a>
             </li>
+
+            <li>
+                <a data-tab="client-template" class="tablinks">
+                    <span>Client Template</span>
+                </a>
+            </li>
+
             <li>
                 <a data-tab="send-sms" class="tablinks">
                     <span>Send SMS</span>
                 </a>
             </li>
+
         </ul>
 
         <!-- Billing Profile Content -->
@@ -189,7 +218,7 @@ User::addAction()
             </div>
             <form action="<?php echo Controllers::$init->getData("links")["controller"]; ?>" method="post" id="ExampleSMSSettings">
                 <input type="hidden" name="operation" value="module_controller">
-                <input type="hidden" name="module" value="ExampleSMS">
+                <input type="hidden" name="module" value="SmsNetbd">
                 <input type="hidden" name="controller" value="settings">
 
                 <div class="formcon">
@@ -232,7 +261,7 @@ User::addAction()
                                     method: "POST",
                                     data: {
                                         operation: "module_controller",
-                                        module: "ExampleSMS",
+                                        module: "SmsNetbd",
                                         controller: "get-credit"
                                     }
                                 }, true, true);
@@ -306,7 +335,7 @@ User::addAction()
 
                 <?php
 
-                foreach ($hooks_array as $hook_name => $hooks) {
+                foreach ($admin_template as $hook_name => $hooks) {
                     $check = ucfirst(trim($hook_name)) . "Check";
                     $message = ucfirst(trim($hook_name)) . "Message";
                     $number = ucfirst(trim($hook_name)) . "Number";
@@ -321,7 +350,7 @@ User::addAction()
 
                         <div class="yuzde70">
                             <label style="text-align: start;"> <?= $hooks["perameter"] ?> </label>
-                            <input type="text" class="padding10" name="<?= $message; ?>" value="<?= !empty($CONFIG[$message]) ? $CONFIG[$message] : $hooks['message'] ; ?>">
+                            <input type="text" class="padding10" name="<?= $message; ?>" value="<?= !empty($CONFIG[$message]) ? $CONFIG[$message] : $hooks['message']; ?>">
                         </div>
 
                         <div class="yuzde30 sms_net_bd">
@@ -345,6 +374,55 @@ User::addAction()
 
         </div>
 
+        <!-- client template -->
+        <div id="client-template" class="tabcontent">
+            <div class="verticaltabstitle">
+                <h2>Client Template</h2>
+            </div>
+
+            <form action="<?php echo Controllers::$init->getData("links")["controller"]; ?>" method="post" class="client-template-form">
+
+                <?php
+
+                foreach ($client_template as $hook_name => $hooks) {
+                    $check = ucfirst(trim($hook_name)) . "Check";
+                    $message = ucfirst(trim($hook_name)) . "Message";
+                    $number = ucfirst(trim($hook_name)) . "Number";
+                ?>
+
+                    <div class="formcon">
+
+                        <div class="yuzde30 sms_net_bd">
+                            <input type="checkbox" name="<?= $check ?>" <?= $CONFIG[$check] ? 'checked' : ''; ?>>
+                            <strong> <?= ucfirst(trim($hook_name)) ?> </strong>
+                        </div>
+
+                        <div class="yuzde70">
+                            <label style="text-align: start;"> <?= $hooks["perameter"] ?> </label>
+                            <input type="text" class="padding10" name="<?= $message; ?>" value="<?= !empty($CONFIG[$message]) ? $CONFIG[$message] : $hooks['message']; ?>">
+                        </div>
+
+                        <div class="yuzde30 sms_net_bd">
+                            <span><?= $LANG["AdminNumber"]; ?></span>
+                        </div>
+
+                        <div class="yuzde70">
+                            <input type="text" class="padding10" minlength="11" name="<?= $number ?>" value="<?= !empty($CONFIG[$number]) ? $CONFIG[$number] : ''; ?>">
+                        </div>
+
+                    </div>
+                <?php
+
+                }
+
+                ?>
+
+                <div style="float:right;" class="guncellebtn"><a href="javascript:void(0);" class="client-template yesilbtn gonderbtn"><?php echo $LANG["save-client-template"]; ?></a></div>
+
+            </form>
+
+        </div>
+   
         <!-- SMS Send -->
         <div id="send-sms" class="tabcontent">
 
@@ -377,10 +455,9 @@ User::addAction()
             </form>
 
         </div>
+
     </div>
 </div>
-
-
 
 <!-- Tab Functionality -->
 <script>
@@ -418,7 +495,7 @@ User::addAction()
                 method: "POST",
                 data: {
                     operation: "module_controller",
-                    module: "ExampleSMS",
+                    module: "SmsNetbd",
                     controller: "send",
                     recipientNumber: recipientNumber,
                     message: message
@@ -445,9 +522,9 @@ User::addAction()
 </script>
 
 <!-- Admin template functionality  -->
-
 <script>
     $(document).ready(function() {
+
         $(".admin-template").click(function(e) {
             e.preventDefault(); // Prevent default form submission
 
@@ -471,7 +548,7 @@ User::addAction()
             // Extend form data with additional values
             $.extend(formData, {
                 operation: "module_controller",
-                module: "ExampleSMS",
+                module: "SmsNetbd",
                 controller: "admin-template"
             });
 
@@ -498,44 +575,60 @@ User::addAction()
                 }
             });
         });
+
+
+        $(".client-template").click(function(e) {
+            e.preventDefault(); // Prevent default form submission
+
+            // Function to get the value of an input field
+            function getInputData(name) {
+                var $input = $("input[name='" + name + "']");
+                if ($input.is(":checkbox")) {
+                    return $input.is(":checked") ? 1 : 0;
+                }
+                return $input.val();
+            }
+
+            // Collecting form data dynamically into an object
+            var formData = {};
+            <?php foreach ($client_template as $key => $hook) { ?>
+                formData["<?= $key . 'Check'; ?>"] = getInputData("<?= $key . 'Check'; ?>");
+                formData["<?= $key . 'Message'; ?>"] = getInputData("<?= $key . 'Message'; ?>");
+                formData["<?= $key . 'Number'; ?>"] = getInputData("<?= $key . 'Number'; ?>");
+            <?php } ?>
+
+            // Extend form data with additional values
+            $.extend(formData, {
+                operation: "module_controller",
+                module: "SmsNetbd",
+                controller: "client-template"
+            });
+
+            // Send the AJAX request
+            var request = MioAjax({
+                action: window.location.href,
+                method: "POST",
+                data: formData // Use the dynamically created form data
+            }, true, true);
+
+            // Handle the response
+            request.done(function(result) {
+                var solve = getJson(result); // Parse the JSON response
+                console.log(result);
+
+                if (solve.error == 0) {
+                    alert_success(solve.msg, {
+                        timer: 2500
+                    });
+                } else {
+                    alert_error(solve.msg, {
+                        timer: 2500
+                    });
+                }
+            });
+        });
+    
+        
     });
 </script>
 
-
-<!-- 
-    // $(".admin-template").click(function(e) {
-    //     e.preventDefault(); // Prevent default form submission
-
-    //     // Collecting form data into a FormData object
-    //     var formData = new FormData($(".admin-template-form")[0]); // Pass the DOM element of the form
-
-    //     // Add additional data to the FormData object
-    //     formData.append("operation", "module_controller");
-    //     formData.append("module", "ExampleSMS");
-    //     formData.append("controller", "admin-template");
-
-    //     // Send the AJAX request
-    //     var request = MioAjax({
-    //         action: window.location.href,
-    //         method: "POST",
-    //         data: formData, // Pass the FormData object
-    //         contentType: false, // Required for FormData
-    //         processData: false, // Prevent jQuery from processing FormData
-    //     }, true, true);
-
-    //     // Handle the response
-    //     request.done(function(result) {
-    //         var solve = getJson(result); // Parse the JSON response
-    //         console.log(result);
-
-    //         if (solve.error == 0) {
-    //             alert_success(solve.msg, {
-    //                 timer: 2500
-    //             });
-    //         } else {
-    //             alert_error(solve.msg, {
-    //                 timer: 2500
-    //             });
-    //         }
-    //     });
-    // }); -->

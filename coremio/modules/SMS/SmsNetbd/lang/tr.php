@@ -1,6 +1,6 @@
 <?php 
 return [
-    'name'                 => "ExampleSMS",
+    'name'                 => "SmsNetbd",
     'origin-name'          => "G\xc3\xb6nderici Ba\xc5\x9fl\xc4\xb1\xc4\x9f\xc4\xb1",
     'origin-name-desc'     => "",
     'balance-info'         => 'Bakiye Bilgisi',

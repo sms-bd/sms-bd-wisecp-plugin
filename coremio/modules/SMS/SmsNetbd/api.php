@@ -1,5 +1,5 @@
 <?php
-class ExampleSMS_API
+class SmsNetbd_API
 {
     public $api_token = NULL;
     public $error     = NULL;

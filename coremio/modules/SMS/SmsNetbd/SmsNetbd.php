@@ -1,6 +1,6 @@
 <?php
 
-class ExampleSMS
+class SmsNetbd
 {
     public $international = true, $lang, $config = [], $error,$url;
     private $instance, $title, $body, $numbers = [];
@@ -9,7 +9,7 @@ class ExampleSMS
     {
         $this->lang = Modules::Lang("SMS", __CLASS__);
 
-        if (!class_exists("ExampleSMS_API")) include __DIR__ . DS . "api.php";
+        if (!class_exists("SmsNetbd_API")) include __DIR__ . DS . "api.php";
 
         $config             = include __DIR__ . DS . "config.php";
 
@@ -21,7 +21,7 @@ class ExampleSMS
 
         $this->title        = $config["origin"];
 
-        $this->instance     = new ExampleSMS_API();
+        $this->instance     = new SmsNetbd_API();
 
         $this->instance->set_credentials($config["api-token"]);
 
@@ -85,19 +85,32 @@ class ExampleSMS
 
     }
 
-    public function validatePhoneNumber($phoneNumber)
+    public function validatePhoneNumber($num)
     {
-        $phoneNumber = preg_replace('/[^0-9+]/', '', $phoneNumber);
-
-        $trimmed = trim($phoneNumber);
-
-        $pattern = '/^(?:\+?88)?01[3-9]\d{8}$/';
-
-        if (preg_match($pattern, $trimmed)) {
-            return $trimmed;
-        }
-
-        return false;
+        if (!$num) {
+            return false;
+          }
+      
+          $num    = ltrim(trim($num), "+88");
+          $number = '88' . ltrim($num, "88");
+      
+          $ext = [
+            "88017",
+            "88013",
+            "88016",
+            "88015",
+            "88018",
+            "88019",
+            "88014",
+          ];
+          if (
+            is_numeric($number) && strlen($number) === 13
+            && in_array(substr($number, 0, 5), $ext)
+          ) {
+            return $number;
+          }
+      
+          return false;
 
     }
 

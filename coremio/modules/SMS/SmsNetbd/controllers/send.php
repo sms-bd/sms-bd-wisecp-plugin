@@ -20,16 +20,16 @@ if (empty($recipientNumber) || empty($message)) {
     sendResponse('1', 'Message and recipient number are required.');
 }
 
-// Initialize the ExampleSMS object
-$exampleSMS = new ExampleSMS();
+// Initialize the SmsNetbd object
+$SmsNetbd = new SmsNetbd();
 
 // Validate the phone number format
-if (!$exampleSMS->validatePhoneNumber($recipientNumber)) {
+if (!$SmsNetbd->validatePhoneNumber($recipientNumber)) {
     sendResponse('1', 'Invalid phone number format.');
 }
 
 // Send the SMS and get the response
-$response = $exampleSMS->send($message, $recipientNumber);
+$response = $SmsNetbd->send($message, $recipientNumber);
 
 // Output the response from the SMS service
 echo $response;

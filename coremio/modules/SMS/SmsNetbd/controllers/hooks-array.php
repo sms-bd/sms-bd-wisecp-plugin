@@ -175,6 +175,68 @@ return $hooks_array = [
     ],
 
     // Ticket hooks
+
+
+    "TicketAdminAreaViewDetail" => [
+        "check" => "Check",
+        "perameter" => "Supported Perameter {id}",
+        "message" => "Ticket #{id} Admin Area View Detail",
+        "number" => "",
+    ],
+
+    
+    "TicketAdminAreaViewDetailSidebar" => [
+        "check" => "Check",
+        "perameter" => "Supported Perameter {id}",
+        "message" => "Ticket #{id} Admin Area View Detail Sidebar",
+        "number" => "",
+    ],
+
+
+    "TicketAdminAreaViewCreate" => [
+        "check" => "Check",
+        "perameter" => "Supported Perameter {id}",
+        "message" => "Ticket #{id} Admin Area View Created",
+        "number" => "",
+    ],
+
+
+    "TicketAdminAreaViewCreateSidebar" => [
+        "check" => "Check",
+        "perameter" => "Supported Perameter {id}",
+        "message" => "Ticket #{id} Admin Area View Created Sidebar",
+        "number" => "",
+    ],
+
+    "TicketAdminAreaViewList" => [
+        "check" => "Check",
+        "perameter" => "Supported Perameter {id}",
+        "message" => "Ticket #{id} Admin Area View List",
+        "number" => "",
+    ],
+
+    "TicketClientAreaViewDetailTop" => [
+        "check" => "Check",
+        "perameter" => "Supported Perameter {id}",
+        "message" => "Ticket #{id} Client Area View Details Top",
+        "number" => "",
+    ],
+
+    "TicketClientAreaViewDetail" => [
+        "check" => "Check",
+        "perameter" => "Supported Perameter {id}",
+        "message" => "Ticket #{id} Client Area View Details",
+        "number" => "",
+    ],
+
+    "TicketClientAreaViewList" => [
+        "check" => "Check",
+        "perameter" => "Supported Perameter {id}",
+        "message" => "Ticket #{id} Client Area View List",
+        "number" => "",
+    ],
+
+
     "TicketAdminUpdated" => [
         "check" => "Check",
         "perameter" => "Supported Perameter {id}",
@@ -182,12 +244,22 @@ return $hooks_array = [
         "number" => "",
     ],
 
+
+    "TicketClientCreateValidation" => [
+        "check" => "Check",
+        "perameter" => "Supported Perameter {id}",
+        "message" => "Ticket #{id} Client Created Validation",
+        "number" => "",
+    ],
+
+    
     "TicketAdminReplyValidation" => [
         "check" => "Check",
         "perameter" => "Supported Perameter {id}",
         "message" => "Ticket #{id} Admin Reply Validation",
         "number" => "",
     ],
+
 
     "TicketDeleted" => [
         "check" => "Check",
