@@ -1,2 +1,2 @@
-# sms-net-bd-wisecp-plugin
+# sms-bd-wisecp-plugin
 WISECP plugin for sending SMS via sms.net.bd
